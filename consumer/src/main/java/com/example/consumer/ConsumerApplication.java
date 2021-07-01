@@ -1,5 +1,7 @@
 package com.example.consumer;
 
+import lombok.AllArgsConstructor;
+import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -16,7 +18,14 @@ public class ConsumerApplication {
 	}
 
 	@Bean
-	public Consumer<String> consumer1() {
-		return data -> log.info("Data received from customer-1..." + data);
+	public Consumer<Person> consumer1() {
+		return person -> log.info("Data received from customer-1..." + person.getName() );
 	}
+}
+
+@Data
+@AllArgsConstructor
+class Person {
+	String name;
+	int age;
 }

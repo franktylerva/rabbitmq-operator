@@ -1,5 +1,7 @@
 package com.example.producer;
 
+import lombok.AllArgsConstructor;
+import lombok.Data;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
@@ -27,12 +29,17 @@ class ProducerController {
 
 	final StreamBridge streamBridge;
 
-	//private final BlockingQueue<String> queue = new LinkedBlockingQueue<String>();
-
 	@GetMapping("/")
 	public String postMessage() {
-
-		streamBridge.send("consumer1-in-0", "Here's a message");
+		Person p = new Person("John Doe", 28);
+		streamBridge.send("consumer1-in-0", p);
 		return "message sent";
 	}
+}
+
+@Data
+@AllArgsConstructor
+class Person {
+	String name;
+	int age;
 }
