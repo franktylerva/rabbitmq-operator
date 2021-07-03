@@ -1,0 +1,36 @@
+apiVersion: rabbitmq.com/v1beta1
+kind: RabbitmqCluster
+metadata:
+    name: shared-mq
+---
+apiVersion: rabbitmq.com/v1beta1
+kind: Vhost
+metadata:
+  name: shared-mq-vhost
+spec:
+  name: shared-mq-vhost
+  rabbitmqClusterReference:
+    name: shared-mq
+---
+apiVersion: rabbitmq.com/v1beta1
+kind: User
+metadata:
+  name: producer
+spec:
+  rabbitmqClusterReference:
+    name: shared-mq
+---
+apiVersion: rabbitmq.com/v1beta1
+kind: Permission
+metadata:
+  name: producer-permission
+spec:
+  vhost: "shared-mq-vhost"
+  userReference:
+    name: producer
+  permissions:
+    write: ".*"
+    configure: ".*"
+    read: ".*"
+  rabbitmqClusterReference:
+    name: shared-mq
